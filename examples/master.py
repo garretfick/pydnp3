@@ -70,7 +70,7 @@ class MyMaster:
         self.soe_handler = soe_handler
         self.master_application = master_application
         self.master = self.channel.AddMaster("master",
-                                   asiodnp3.PrintingSOEHandler().Create(),
+                                   self.soe_handler,
                                    self.master_application,
                                    self.stack_config)
 
