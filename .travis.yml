@@ -55,6 +55,6 @@ before_install: |
 install:
   - pip install -r requirements.txt
 
-script: |
-  python setup.py install
-  pytest tests/
+script:
+  - python setup.py install
+  - pytest tests/
