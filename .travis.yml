@@ -28,11 +28,6 @@ matrix:
       sudo: required
     - os: windows
       language: sh
-      python: "2.7"
-      env:
-        - PYTHON=2.7
-    - os: windows
-      language: sh
       python: "3.6"
       env:
         - PYTHON=3.6
@@ -44,7 +39,6 @@ before_install: |
     sudo apt-get install -y build-essential python-dev openssl libssl-dev libevent-dev
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
     pip install -U pip
-    python setup.py install
   fi
   if [ "${TRAVIS_OS_NAME}" == "windows" ]; then
     if [ "${PYTHON}" == "3.6" ]; then
@@ -56,9 +50,11 @@ before_install: |
       choco install vcpython27
     fi
     python -m pip install --upgrade pip wheel
-    pip install -U pip
-    python setup.py install
   fi
 
-script:
-  - pytest tests/
+install:
+  - pip install -r requirements.txt
+
+script: |
+  python setup.py install
+  pytest tests/
