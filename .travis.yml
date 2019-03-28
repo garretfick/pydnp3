@@ -26,14 +26,39 @@ matrix:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
          - PYTHON=3.6
       sudo: required
+    - os: windows
+      language: sh
+      python: "2.7"
+      env:
+        - PYTHON=2.7
+    - os: windows
+      language: sh
+      python: "3.6"
+      env:
+        - PYTHON=3.6
 
-before_install:
-  - eval "${MATRIX_EVAL}"
-  - sudo apt-get update -qq
-  - sudo apt-get install -y build-essential python-dev openssl libssl-dev libevent-dev
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
-  - pip install -U pip
-  - python setup.py install
+before_install: |
+  if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+    eval "${MATRIX_EVAL}"
+    sudo apt-get update -qq
+    sudo apt-get install -y build-essential python-dev openssl libssl-dev libevent-dev
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+    pip install -U pip
+    python setup.py install
+  fi
+  if [ "${TRAVIS_OS_NAME}" == "windows" ]; then
+    if [ "${PYTHON}" == "3.6" ]; then
+      choco install python3 --version 3.6.8
+      export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+    else
+      choco install python2
+      export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+      choco install vcpython27
+    fi
+    python -m pip install --upgrade pip wheel
+    pip install -U pip
+    python setup.py install
+  fi
 
 script:
   - pytest tests/
