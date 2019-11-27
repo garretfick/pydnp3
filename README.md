@@ -1,4 +1,26 @@
-# pydnp3
+# pyopendnp3
+
+This project is a minor fork of the great
+[pydnp3](https://github.com/ChargePoint/pydnp3) library, which provides Python
+bindings for OpenDNP3.
+
+Why fork? Because pydnp3 only provides pip-friendly wheels for Python 2
+and Python 2.7 has reached end of life. This fork aims to provide pip-friendly
+wheels for Python 3 available on PyPI.
+
+While the name of the project is pyopendnp3, module names are unchanged and
+thus code that worked with pydnp3 should work with no changes.
+
+This project currently produces wheels for the following platforms:
+
+* Windows
+  * Python 3.5 x86-64
+  * Python 3.6 x86-64
+  * Python 3.7 x86-64
+  * Python 3.8 x86-64
+
+The remainder of this README is reproduced verbatim from pydnp3.
+
 Python bindings for the [opendnp3](https://github.com/automatak/dnp3) library,  an open source
 implementation of the [DNP3](http://ww.dnp.org) protocol stack written in C++14.
 

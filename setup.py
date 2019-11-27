@@ -9,6 +9,11 @@ from setuptools.command.build_ext import build_ext
 from distutils.version import LooseVersion
 __version__ = '0.1.0'
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+# Get the long description from the README file
+with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
@@ -55,27 +60,20 @@ class CMakeBuild(build_ext):
                                                               self.distribution.get_version())
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
-
-        setup_path = os.path.dirname(os.path.abspath(__file__))
-        if not "<string>" in open(os.path.join(setup_path, 'deps', 'dnp3', 'cpp', 'libs', 'include', 'asiodnp3', 'IMasterOperations.h')).read():
-            dnp3_path = os.path.join(setup_path, 'deps', 'dnp3')
-            patch_path = os.path.join(setup_path, 'imasteroperations.patch')
-
-            subprocess.check_call(['git', 'apply', patch_path], cwd=dnp3_path)
-
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
 setup(
-    name='pydnp3',
+    name='pyopendnp3',
     version=__version__,
-    author='Anh Nguyen',
-    author_email='anh@kisensum.com',
-    url='http://github.com/Kisensum/pydnp3',
-    description='pydnp3 -- python binding for opendnp3',
-    long_description='',
+    url='https://github.com/garretfick/pydnp3',
+    description='pyopendnp3 -- python binding for opendnp3',
+    long_description=long_description,
+    setup_requires=['wheel'],
     install_requires=['pybind11>=2.2'],
+    extras_require={
+        'dev': ['check-manifest']
+    },
     ext_modules=[CMakeExtension('pydnp3')],
-    cmdclass=dict(build_ext=CMakeBuild),
-    zip_safe=False,
+    cmdclass=dict(build_ext=CMakeBuild)
 )
