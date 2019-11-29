@@ -16,7 +16,7 @@ install:
   # We need wheel installed to build wheels
   - "python -m pip install wheel"
   # Make sure we have a recent version of setuptools that supports markdown
-  = "python -m pip install --upgrade setuptools
+  - "python -m pip install --upgrade setuptools"
   - "git submodule update --init --recursive"
   - "git apply imasteroperations.patch"
 
