@@ -69,6 +69,7 @@ setup(
     url='https://github.com/garretfick/pydnp3',
     description='pyopendnp3 -- python binding for opendnp3',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     setup_requires=['wheel'],
     install_requires=['pybind11>=2.2'],
     extras_require={
