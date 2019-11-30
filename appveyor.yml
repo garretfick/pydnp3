@@ -1,0 +1,29 @@
+image:
+  - Visual Studio 2019
+
+environment:
+  matrix:
+    - PY_DIR: "C:\\Python35-x64"
+    - PY_DIR: "C:\\Python36-x64"
+    - PY_DIR: "C:\\Python37-x64"
+    - PY_DIR: "C:\\Python38-x64"
+
+init:
+  - cmd: set PATH=%PY_DIR%;%PY_DIR%\Scripts;%PATH%
+
+install:
+  - "python --version"
+  # We need wheel installed to build wheels
+  - "python -m pip install wheel"
+  # Make sure we have a recent version of setuptools that supports markdown
+  - "python -m pip install --upgrade setuptools"
+  - "git submodule update --init --recursive"
+  - "git apply imasteroperations.patch"
+
+build: off
+
+after_test:
+  - "python setup.py bdist_wheel"
+
+artifacts:
+  - path: dist\*

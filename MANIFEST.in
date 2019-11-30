@@ -1,0 +1,6 @@
+include *.md
+include LICENSE
+include CMakeLists.txt
+include settings.cmake
+recursive-include src *
+recursive-include deps *
